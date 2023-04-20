@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
+const { log } = require('console');
 
 const app = express();
 //bodyparser
@@ -32,12 +33,12 @@ app.post('/signup',(req,res) =>{
     }
 
     const postData = JSON.stringify(data);
-
+    const ApiKey = '6735786aafd72a3ed7df9e2138a9e468-us21';
     const options = {
         url: 'https://us21.api.mailchimp.com/3.0/lists/cbcd6a7386',
         method: 'POST',
         headers: {
-            Authorization: 'auth 735ae84cc7ed0102ac592c2505a3b6ee-us21'
+            Authorization: `auth ${ApiKey}`
         },
         body: postData
     }
@@ -48,6 +49,8 @@ app.post('/signup',(req,res) =>{
             if(response.statusCode === 200){
                 res.redirect('/success.html');
             }else{
+                
+                console.log(response.statusCode);
                 res.redirect('/fail.html');
             }
         }
