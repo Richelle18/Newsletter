@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
+const CryptoJs = require('crypto-js');
 const { log } = require('console');
 
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 //static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
 //signup route
 app.post('/signup',(req,res) =>{
     const {firstName, lastName, email} = req.body;
@@ -33,7 +35,9 @@ app.post('/signup',(req,res) =>{
     }
 
     const postData = JSON.stringify(data);
-    const ApiKey = '6735786aafd72a3ed7df9e2138a9e468-us21';
+    const ApiKey = getDecryptedValue();
+
+    console.log(ApiKey);
     const options = {
         url: 'https://us21.api.mailchimp.com/3.0/lists/cbcd6a7386',
         method: 'POST',
@@ -56,6 +60,15 @@ app.post('/signup',(req,res) =>{
         }
     });
 })
+
+function getDecryptedValue() {
+    const decrypted = CryptoJs.AES.decrypt('U2FsdGVkX1/1sM2ZR/fMPf1GkuVA1xhBXCU/dps5h2Zq+yJMQV4LNuY20jGLSY7ygHQKkgU69dN9/SzjRK8Iuw==','Pass123!');
+   
+  return decrypted.toString(CryptoJs.enc.Utf8); 
+}
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on ${PORT}`))
+
 
