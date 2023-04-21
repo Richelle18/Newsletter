@@ -68,22 +68,26 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on ${PORT}`));
 
 //getting secret key
-let inputedSecretKey = '';
+// let inputedSecretKey = '';
 const getDecryptedValue = function() {
    
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+    // const rl = readline.createInterface({
+    //     input: process.stdin,
+    //     output: process.stdout,
+    //   });
 
       
-      rl.question("Input Secret Key:", function (string) {
-        inputedSecretKey = string;
-      rl.close();
-      });
+    //   rl.question("Input Secret Key:", function (string) {
+    //     inputedSecretKey = string;
+    //   rl.close();
+    //   });
 
-    const decrypted = CryptoJs.AES.decrypt('U2FsdGVkX1/1sM2ZR/fMPf1GkuVA1xhBXCU/dps5h2Zq+yJMQV4LNuY20jGLSY7ygHQKkgU69dN9/SzjRK8Iuw==',`${inputedSecretKey}`);
+    //on local machine
+    // const decrypted = CryptoJs.AES.decrypt('U2FsdGVkX1/1sM2ZR/fMPf1GkuVA1xhBXCU/dps5h2Zq+yJMQV4LNuY20jGLSY7ygHQKkgU69dN9/SzjRK8Iuw==',`${inputedSecretKey}`);
    
+    //web hosting
+    const decrypted = CryptoJs.AES.decrypt('U2FsdGVkX1/1sM2ZR/fMPf1GkuVA1xhBXCU/dps5h2Zq+yJMQV4LNuY20jGLSY7ygHQKkgU69dN9/SzjRK8Iuw==',`Pass123!`);
+
     return decrypted.toString(CryptoJs.enc.Utf8); 
 }
 
